@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, status
 from app.repos.user_repo import create_user_query, login
 from app.repos.todo_repo import create_todo, get_todo, delete_todo, update_todo
 from sqlalchemy.orm import Session
-from app.schemas.user_schemas import UserRead, UserCreate
+from app.schemas.user_schemas import UserRead, UserCreate, LoginRead
 from app.schemas.todo_schemas import TodoCreate, TodoRead, TodoUpdate
 from app.auth.user import get_current_user, get_db
 
@@ -14,7 +14,7 @@ def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
     return create_user_query(db, user_data)
 
 
-@app.post("/login")
+@app.post("/login", response_model=LoginRead)
 def log_in(user_data: UserCreate, db: Session = Depends(get_db)):
     return login(user_data, db)
 
@@ -40,16 +40,16 @@ def get_todo_endpoint(
     return get_todo(limit, offset, is_completed, search, db, current_user)
 
 
-@app.delete("/todo/{id}")
+@app.delete("/todo/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def remove_todo(
-    id, db: Session = Depends(get_db), current_user=Depends(get_current_user)
+    id: int, db: Session = Depends(get_db), current_user=Depends(get_current_user)
 ):
     return delete_todo(id, db, current_user)
 
 
-@app.patch("/todo/{id}")
+@app.patch("/todo/{id}", response_model=TodoRead)
 def patch_todo(
-    id,
+    id: int,
     todo_data: TodoUpdate,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),

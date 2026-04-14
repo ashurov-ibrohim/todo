@@ -91,12 +91,12 @@ def delete_todo(
     if todo is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found"
-        )
+        ) 
 
     db.delete(todo)
     db.commit()
 
-    return {"msg": "Todo deleted"}
+    return None
 
 
 def update_todo(

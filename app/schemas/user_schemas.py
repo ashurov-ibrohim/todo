@@ -9,3 +9,7 @@ class UserCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class LoginRead(BaseModel):
+    access_token: str
+    token_type: str
