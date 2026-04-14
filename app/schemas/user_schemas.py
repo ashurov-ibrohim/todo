@@ -7,7 +7,7 @@ class UserRead(BaseModel):
 
 class UserCreate(BaseModel):
     username: constr(min_length=5, max_length=30) = None
-    password: constr(min_length=5, max_length=50) = None
+    password: constr(min_length=8, max_length=255) = None
 
     class Config:
         orm_mode = True
@@ -20,7 +20,9 @@ class UserUpdateUsername(BaseModel):
     username: Optional[constr(min_length=5, max_length=30)] = None
 
 class UserUpdatePassword(BaseModel):
-    password: Optional[constr(min_length=5, max_length=50)] = None
+    old_password: constr(min_length=8, max_length=255)
+    new_password: constr(min_length=8, max_length=255)
+
 
 class UserOut(BaseModel):
     id: UUID
