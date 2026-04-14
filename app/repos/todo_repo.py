@@ -115,11 +115,10 @@ def update_todo(
             status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found"
         )
 
-    if todo_data.todo_text is not None:
-        todo.todo_text = todo_data.todo_text
+    data = todo_data.model_dump(exclude_unset=True)
 
-    if todo_data.is_completed is not None:
-        todo.is_completed = todo_data.is_completed
+    for key, value in data.items():
+        setattr(todo, key, value)
 
     db.commit()
     db.refresh(todo)

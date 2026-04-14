@@ -1,5 +1,4 @@
 from pydantic import BaseModel, constr
-from uuid import UUID
 from typing import Optional
 
 
