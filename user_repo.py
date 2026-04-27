@@ -9,7 +9,7 @@ from app.core.security import (
     verify_token,
 )
 from app.schemas.user_schemas import UserCreate, UserUpdateUsername, UserUpdatePassword
-from app.auth.user import get_db, get_current_user
+from app.auth.dependencies import get_db, get_current_user
 
 
 def create_user_query(db: Session, user_data: UserCreate):

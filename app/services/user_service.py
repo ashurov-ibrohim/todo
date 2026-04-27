@@ -9,7 +9,7 @@ from app.core.security import (
     create_refresh_token,
     verify_token,
 )
-from app.schemas.user_schemas import UserCreate
+from app.schemas.user_schemas import UserCreate, UserLogin
 from app.core.blacklist import blacklisted_tokens
 
 
@@ -24,7 +24,7 @@ def create_user_service(db: Session, user: UserCreate):
     return create_user(db, user_obj)
 
 
-def login(db: Session, user_data: UserCreate):
+def login(db: Session, user_data: UserLogin):
     user_db = get_user_by_username(db, user_data.username)
 
     if user_db is None:

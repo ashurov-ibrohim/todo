@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.services.user_service import create_user_service, login, refresh_service, logout_service
-from app.schemas.user_schemas import UserCreate, UserRead
+from app.schemas.user_schemas import UserCreate, UserRead, UserLogin
 from app.schemas.token_schemas import TokenResponse, RefreshRequests
-from app.auth.user import get_db, get_current_user, oatuh2_scheme
+from app.auth.dependencies import get_db, get_current_user, oatuh2_scheme
 from jose import jwt
 from app.core.config import settings
 from app.core.security import create_access_token
@@ -17,7 +17,7 @@ def signup(user_data: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login")
-def login_router(user_data: UserCreate, db: Session = Depends(get_db)):
+def login_router(user_data: UserLogin, db: Session = Depends(get_db)):
     return login(db, user_data)
 
 

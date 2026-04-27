@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from app.schemas.todo_schemas import TodoCreate, TodoRead, TodoUpdate
-from app.auth.user import get_current_user, get_db
+from app.auth.dependencies import get_current_user, get_db
 from app.services.todo_service import (
     create_todo_service,
     get_todo_service,

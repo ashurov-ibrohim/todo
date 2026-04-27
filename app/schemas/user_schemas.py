@@ -6,11 +6,15 @@ class UserRead(BaseModel):
     username: str
 
 class UserCreate(BaseModel):
-    username: constr(min_length=5, max_length=30) = None
-    password: constr(min_length=8, max_length=255) = None
+    username: constr(min_length=5, max_length=30)
+    password: constr(min_length=8, max_length=255)
 
     class Config:
         orm_mode = True
+
+class UserLogin(BaseModel):
+    username: constr(min_length=5, max_length=30)
+    password: constr(min_length=8, max_length=255)
 
 class LoginRead(BaseModel):
     access_token: str
