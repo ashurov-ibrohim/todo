@@ -6,7 +6,7 @@ client = TestClient(app)
 
 def test_signup():
     response = client.post(
-        "/auth/signup", json={"username": "hohohowar", "password": "h4hehehe"}
+        "/auth/signup", json={"username": "developer", "password": "12345678"}
     )
 
     assert response.status_code == 200
@@ -14,7 +14,7 @@ def test_signup():
 
 def test_login_success():
     response = client.post(
-        "/auth/login", json={"username": "ureee", "password": "12345678"}
+        "/auth/login", json={"username": "developer", "password": "12345678"}
     )
 
     assert response.status_code == 200
@@ -34,38 +34,26 @@ def test_wrong_password():
 
 
 def test_logout():
-    login_resp = client.post(
+    data = client.post(
         "/auth/login", json={"username": "ureee", "password": "12345678"}
     )
 
-    token = login_resp.json()["access_token"]
+    token = data.json()["access_token"]
 
-    response = client.post("/auth/logout", headers={"Authorization": f"Bearer {token}"})
+    response = client.post('/auth/logout', headers={"Authorization": f"Bearer {token}"})
 
     assert response.status_code == 200
 
-
-def test_token_blacklisted():
-    login_resp = client.post(
+def test_logout_blacklisted_tokens():
+    data = client.post(
         "/auth/login", json={"username": "ureee", "password": "12345678"}
     )
+    token = data.json()["access_token"]
 
-    token = login_resp.json()["access_token"]
+    logout = client.post("/auth/logout", headers={"Authorization": f"Bearer {token}"})
 
-    repsonse = client.post("/auth/logout", headers={"Authorization": f"Bearer {token}"})
-
-    assert repsonse.status_code == 200
-
-
-def test_token_blacklisted_after_logout():
-    login_resp = client.post(
-        "/auth/login", json={"username": "ureee", "password": "hello"}
+    response = client.get(
+        "/todo/", headers={"Authorization": f"Bearer {token}"}
     )
-
-    token = login_resp.json()["access_token"]
-
-    client.post("/auth/logout", headers={"Authorization": f"Bearer {token}"})
-
-    response = client.get("/todo", headers={"Authorization": f"Bearer {token}"})
 
     assert response.status_code == 401
