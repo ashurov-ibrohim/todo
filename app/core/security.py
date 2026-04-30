@@ -32,6 +32,11 @@ def create_refresh_token(data: dict):
 
     return encoded_jwt
 
+# def create_token(data:dict, type: str):
+#     to_encode = data.copy()
+
+#     expire = datetime.now(timezone.utc) + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS) if type=="refresh" else timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+
 def verify_token(token: str, expected_type: str):
     try:
         payload = jwt.decode(

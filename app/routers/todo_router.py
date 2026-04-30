@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 router = APIRouter(prefix="/todo", tags=["TODO"])
 
 
-@router.post("/post", response_model=TodoRead)
+@router.post("/", response_model=TodoRead)
 def create_todo(
     todo_data: TodoCreate,
     db: Session = Depends(get_db),

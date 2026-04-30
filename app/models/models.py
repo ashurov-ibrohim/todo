@@ -4,7 +4,7 @@ from app.db.database import Base
 from typing import List
 from uuid import uuid4, UUID
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
-from datetime import datetime
+from datetime import datetime, timezone
 
 class Users(Base):
     __tablename__ = "users"
@@ -12,7 +12,7 @@ class Users(Base):
     id: Mapped[UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid4)
     username: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now(timezone.utc))
     todo: Mapped[List["Todo"]] = relationship(back_populates="user")
 
 class Todo(Base):

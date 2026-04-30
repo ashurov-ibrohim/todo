@@ -10,12 +10,12 @@ what can it do:
 After login it gives jwt token everytime and with this token user can skip login next time, and only access to his datas.
 
 Endpoints:
-- POST /signup
-- POST /login
-- POST /todo
-- GET /todo
-- DELETE /todo
-- PATCH /todo
+- POST /auth/signup
+- POST /auth/login
+- POST /todo/post
+- GET /todo/
+- DELETE /todo/
+- PATCH /todo/
 
 To use:
 pip install -r requirements.txt
